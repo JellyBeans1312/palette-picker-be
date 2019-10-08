@@ -84,4 +84,20 @@ describe('Server', () => {
       expect(res.body.error).toEqual('Could not find palette with matching ID')
     });
   });
-})
+
+  describe('POST /api/v1/projects', () => {
+    it('should post a new project to the db', async () => {
+      const newProject = {
+        project_name: 'testProject'
+      }
+  
+      const res = await request(app).post('/api/v1/projects').send(newProject);
+  
+      const projects = await database('projects').where('id', res.body.id);
+      const project = projects[0];
+  
+      expect(res.status).toBe(201);
+      expect(project.project_name).toEqual(newProject.project_name);
+    })
+  });
+});
