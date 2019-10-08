@@ -65,5 +65,19 @@ app.post('/api/v1/palettes', async (request, response) => {
   return response.status(201).json({ id: newPalette[0] })
 });
 
+app.patch('/api/v1/projects/:id', async (request, response) => {
+  const { project_name } = request.body;
+
+  if(!project_name) {
+    return response.status(422).json({ error: 'Please add a valid project name' })
+  } 
+  
+  await database('projects')
+  .where('id', request.params.id)
+  .update({ project_name })
+  
+  return response.status(202).json({ id: request.params.id })
+})
+
 
 module.exports = app;
