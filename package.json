@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchAll",
+    "start": "nodemon --exec babel-node server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +14,12 @@
     "express": "^4.17.1",
     "knex": "^0.19.5",
     "pg": "^7.12.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/node": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "babel-jest": "^24.5.0",
+    "supertest": "^4.0.2"
   }
 }
