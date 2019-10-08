@@ -111,4 +111,40 @@ describe('Server', () => {
       expect(res.body.error).toEqual(`Expected format: { project_name: <string> }. You're missing a "project_name" property.`);
       });
     });
+
+  describe('POST /api/v1/palettes', () => {
+    it('should post a new palette to the db', async () => {
+      const newPalette = {
+        palette_name: 'test palette 2',
+        color_one: '#000',
+        color_two: '#fff',
+        color_three: '#333',
+        color_four: '#FA8072',
+        color_five: '#00FF00'
+      }
+
+      const res = await request(app).post('/api/v1/palettes').send(newPalette);
+
+      const palettes = await database('palettes').where('id', res.body.id);
+      const palette = palettes[0];
+
+      expect(res.status).toBe(201);
+      expect(palette.palette_name).toEqual(newPalette.palette_name);
+    });
+
+    it('should return a 404 status and an error if the project is missing a parameter', async () => {
+      const newPalette = {
+        palette_name: 'palette 2', 
+        color_one: '#000', 
+        color_three: '#333', 
+        color_four: '#FA8072', 
+        color_five: '#00FF00' 
+      }
+
+      const res = await request(app).post('/api/v1/palettes').send(newPalette);
+
+      expect(res.status).toBe(422);
+      expect(res.body.error).toEqual(`Expected format: { project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "color_two" property.`);
+    });
+  });
 });
