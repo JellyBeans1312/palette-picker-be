@@ -161,6 +161,19 @@ describe('Server', () => {
 
       expect(response.status).toBe(202)
       expect(expectedProject[0].project_name).toEqual(newInformation.project_name)
-    })
-  })
+    });
+
+    it('should return a 422 status code and an error message', async () => {
+      const newInformation = {
+        
+      }
+      const project = await database('projects').first()
+      const mockId = project.id
+
+      const response = await request(app).patch(`/api/v1/projects/${mockId}`).send(newInformation)
+
+      expect(response.status).toBe(422)
+      expect(response.body.error).toEqual('Please add a valid project name')
+    });
+  });
 });
