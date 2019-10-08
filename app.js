@@ -32,7 +32,6 @@ app.get('/api/v1/projects/:id', async (request, response) => {
 
 app.get('/api/v1/palettes/:id', async (request, response) => {
   const palette = await database('palettes').where('id', request.params.id)
-
   if(palette.length) {
     return response.status(200).json(palette)
   } else {

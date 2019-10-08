@@ -52,6 +52,15 @@ describe('Server', () => {
       expect(res.status).toBe(200);
       expect(JSON.stringify(result)).toEqual(JSON.stringify(expectedProject));
     });
+
+    it('should return a 404 error if the specific project does not exist in the database', async () => {
+      const invalidId = -1;
+
+      const res = await request(app).get(`/api/v1/projects/${invalidId}`);
+
+      expect(res.status).toBe(404);
+      expect(res.body.error).toEqual('Could not find project with matching ID')
+    });
   });
 
   describe('GET /api/v1/palettes/:id', () => {
