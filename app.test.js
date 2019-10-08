@@ -147,4 +147,20 @@ describe('Server', () => {
       expect(res.body.error).toEqual(`Expected format: { project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "color_two" property.`);
     });
   });
+
+  describe('PATCH /api/v1/projects/:id', () => {
+    it('should successfully update a single project', async () => {
+      const newInformation = {
+        project_name: 'Aint no thang but a chicken wang'
+      }
+      const project = await database('projects').first()
+      const mockId = project.id
+
+      const response = await request(app).patch(`/api/v1/projects/${mockId}`).send(newInformation)
+      const expectedProject = await database('projects').where('id', mockId)
+
+      expect(response.status).toBe(202)
+      expect(expectedProject[0].project_name).toEqual(newInformation.project_name)
+    })
+  })
 });
