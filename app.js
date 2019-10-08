@@ -71,13 +71,27 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
   if(!project_name) {
     return response.status(422).json({ error: 'Please add a valid project name' })
   } 
-  
+
   await database('projects')
   .where('id', request.params.id)
   .update({ project_name })
   
   return response.status(202).json({ id: request.params.id })
-})
+});
 
+app.patch('/api/v1/palettes/:id', async (request, response) => {
+  const paletteToUpdate = request.body;
+
+  for (let requiredParameter of ['palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
+    if(!paletteToUpdate[requiredParameter]) {
+      return response.status(422).json({ error: `Please add a valid ${requiredParameter} value` })
+    } 
+  }
+  await database('palettes')
+  .where('id', request.params.id)
+  .update({ ...paletteToUpdate })
+  
+  return response.status(202).json({ id: request.params.id })
+});
 
 module.exports = app;

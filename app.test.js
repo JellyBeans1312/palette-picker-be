@@ -176,4 +176,38 @@ describe('Server', () => {
       expect(response.body.error).toEqual('Please add a valid project name')
     });
   });
+
+  describe('PATCH /api/v1/palettes/:id', () => {
+    it('should successfully update a single palette', async () => {
+      const newInformation = {
+        palette_name: 'palette 6',
+        color_one: '#234155',
+        color_two: '#999999',
+        color_three: '#454545',
+        color_four: '#F08080',
+        color_five: '#CD5C5C',
+      }
+      const palette = await database('palettes').first()
+      const mockId = palette.id
+
+      const response = await request(app).patch(`/api/v1/palettes/${mockId}`).send(newInformation)
+      const expectedPalette = await database('palettes').where('id', mockId)
+
+      expect(response.status).toBe(202)
+      expect(expectedPalette[0].color_one).toEqual(newInformation.color_one)
+    });
+
+    it('should return a 422 status code and an error message', async () => {
+      const newInformation = {
+        
+      }
+      const palette = await database('palettes').first()
+      const mockId = palette.id
+
+      const response = await request(app).patch(`/api/v1/palettes/${mockId}`).send(newInformation)
+
+      expect(response.status).toBe(422)
+      expect(response.body.error).toEqual('Please add a valid palette_name value')
+    });
+  });
 });
