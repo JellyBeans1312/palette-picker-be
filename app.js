@@ -4,7 +4,7 @@ const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
 
-app.use(express.json())
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('hello')
@@ -39,7 +39,18 @@ app.get('/api/v1/palettes/:id', async (request, response) => {
   }
 });
 
+app.post('/api/v1/projects', async (request, response) => {
+  const project = request.body;
 
+  for(let requiredParameter of ['project_name']) {
+    if(!project[requiredParameter]) {
+      return response.status(422).send({ error: `Expected format: { project_name: <string> }. You're missing a "${requiredParameter}" property.`})
+    }
+  }
+
+  const newProject = await database('projects').insert(project, 'id');
+  return response.status(201).json({ id: newProject[0] })
+});
 
 
 module.exports = app;
