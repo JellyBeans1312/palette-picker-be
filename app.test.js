@@ -98,6 +98,17 @@ describe('Server', () => {
   
       expect(res.status).toBe(201);
       expect(project.project_name).toEqual(newProject.project_name);
-    })
-  });
+    });
+
+    it('should return a 404 status and an error if the project is missing a parameter', async () => {
+      const newProject = {
+        
+      }
+
+      const res = await request(app).post('/api/v1/projects').send(newProject);
+
+      expect(res.status).toBe(422);
+      expect(res.body.error).toEqual(`Expected format: { project_name: <string> }. You're missing a "project_name" property.`);
+      });
+    });
 });
