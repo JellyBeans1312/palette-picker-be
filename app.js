@@ -95,11 +95,18 @@ app.patch('/api/v1/palettes/:id', async (request, response) => {
 });
 
 app.delete('/api/v1/projects/:id', async (request, response) => {
-  await database('palettes').where('project_id', request.params.id).del();
+  const foundProject = await database('projects').where('id', request.params.id);
 
-  await database('projects').where('id', request.params.id).del();
+  if (foundProject.length) {
+    await database('palettes').where('project_id', request.params.id).del();
+  
+    await database('projects').where('id', request.params.id).del();
+  
+    return response.status(204).send();
+  } else {
+    return response.status(422).json({error: 'Unable to delete project.'})
+  }
 
-  return response.status(204).send();
 });
 
 module.exports = app;

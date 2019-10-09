@@ -185,7 +185,6 @@ describe('Server', () => {
     it('should successfully update a single palette', async () => {
       const project = await database('projects').first();
       const projectId = project.id
-      console.log("ID IS HERE", projectId)
       
       const newInformation = {
         project_id: projectId,
@@ -234,6 +233,15 @@ describe('Server', () => {
       const response = await request(app).delete(`/api/v1/projects/${mockId}`);
 
       expect(response.status).toBe(204);
+    });
+
+    it('should return a 422 status code if the id to delete does not exist', async () => {
+      const mockId = -1;
+
+      const response = await request(app).delete(`/api/v1/projects/${mockId}`);
+
+      expect(response.status).toBe(422);
+      expect(response.body.error).toEqual('Unable to delete project.')
     });
   });
 });
