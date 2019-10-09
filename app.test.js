@@ -243,5 +243,26 @@ describe('Server', () => {
       expect(response.status).toBe(422);
       expect(response.body.error).toEqual('Unable to delete project.')
     });
+   });
+
+   describe('DELETE, /api/v1/palettes/:id', () => {
+     it('should return a 204 status code and delete the palette that matches the request.params.id', async () => {
+       const palette = await database('palettes').first();
+       const paletteId = palette.id;
+   
+       const response = await request(app).delete(`/api/v1/palettes/${paletteId}`);
+   
+       expect(response.status).toBe(204);
+     });
+
+     it('should return a 422 status code with an error if the id to delete does not exist', async () => {
+      const mockId = -1;
+
+      const response = await request(app).delete(
+        `/api/v1/palettes/${mockId}`
+      );
+
+      expect(response.status).toBe(422);
+     });
   });
 });
