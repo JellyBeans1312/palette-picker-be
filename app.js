@@ -106,7 +106,18 @@ app.delete('/api/v1/projects/:id', async (request, response) => {
   } else {
     return response.status(422).json({error: 'Unable to delete project.'})
   }
+});
 
+app.delete('/api/v1/palettes/:id', async (request, response) => {
+  const foundPalette = await database('palettes').where('id', request.params.id);
+
+  if(foundPalette.length) {
+    await database('palettes').where('id', request.params.id).del();
+
+    return response.status(204).send();
+  } else {
+    return response.status(422).json({error: 'Unable to delete palette.'})
+  }
 });
 
 module.exports = app;
