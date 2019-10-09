@@ -265,4 +265,16 @@ describe('Server', () => {
       expect(response.status).toBe(422);
      });
   });
+
+  describe('GET, custom endpoint -- /api/v1/palettes?palette_name=:name', () => {
+    it('should return a palette with the specified name', async () => {
+      const palette = await database('palettes').first()
+      const paletteName = palette.palette_name;
+      
+      const response = await request(app).get(`/api/v1/palettes?palette_name=${paletteName}`);
+      
+      expect(response.status).toBe(200);
+      expect(JSON.stringify(response.body)).toEqual(JSON.stringify([palette]))
+    })
+  })
 });
