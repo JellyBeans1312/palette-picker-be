@@ -17,7 +17,17 @@ app.get('/api/v1/projects', async (request, response) => {
 
 app.get('/api/v1/palettes', async (request, response) => {
   const palettes = await database('palettes').select();
+  const { palette_name } = request.query
+  if(palette_name) {
+    const foundPalette = await database('palettes').where('palette_name', request.query.palette_name);
+    if(foundPalette.length) {
+      return response.status(200).json(foundPalette)
+    } else {
+      return response.status(404).json({ error: 'That palette does not exist' })
+    }    
+  }
   return response.status(200).json(palettes)
+  
 });
 
 app.get('/api/v1/projects/:id', async (request, response) => {
