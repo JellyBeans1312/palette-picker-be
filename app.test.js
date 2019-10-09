@@ -114,7 +114,11 @@ describe('Server', () => {
 
   describe('POST /api/v1/palettes', () => {
     it('should post a new palette to the db', async () => {
+      const project = database('projects').first();
+      const projectId = project.id
+
       const newPalette = {
+        project_id: projectId,
         palette_name: 'test palette 2',
         color_one: '#000',
         color_two: '#fff',
@@ -144,7 +148,7 @@ describe('Server', () => {
       const res = await request(app).post('/api/v1/palettes').send(newPalette);
 
       expect(res.status).toBe(422);
-      expect(res.body.error).toEqual(`Expected format: { project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "color_two" property.`);
+      expect(res.body.error).toEqual(`Expected format: { project_id: <integer> project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "color_two" property.`);
     });
   });
 
@@ -179,7 +183,12 @@ describe('Server', () => {
 
   describe('PATCH /api/v1/palettes/:id', () => {
     it('should successfully update a single palette', async () => {
+      const project = await database('projects').first();
+      const projectId = project.id
+      console.log("ID IS HERE", projectId)
+      
       const newInformation = {
+        project_id: projectId,
         palette_name: 'palette 6',
         color_one: '#234155',
         color_two: '#999999',
@@ -187,6 +196,7 @@ describe('Server', () => {
         color_four: '#F08080',
         color_five: '#CD5C5C',
       }
+
       const palette = await database('palettes').first()
       const mockId = palette.id
 
@@ -199,7 +209,12 @@ describe('Server', () => {
 
     it('should return a 422 status code and an error message', async () => {
       const newInformation = {
-        
+        palette_name: 'palette 6',
+        color_one: '#234155',
+        color_two: '#999999',
+        color_three: '#454545',
+        color_four: '#F08080',
+        color_five: '#CD5C5C',
       }
       const palette = await database('palettes').first()
       const mockId = palette.id
@@ -207,7 +222,18 @@ describe('Server', () => {
       const response = await request(app).patch(`/api/v1/palettes/${mockId}`).send(newInformation)
 
       expect(response.status).toBe(422)
-      expect(response.body.error).toEqual('Please add a valid palette_name value')
+      expect(response.body.error).toEqual('Please add a valid project_id value')
+    });
+  });
+
+  describe('DELETE, /api/v1/projects/:id', () => {
+    it('should return a 204 status code and delete a specific project and all associated palettes based on an id', async () => {
+      const project = await database('projects').first();
+      const mockId = project.id;
+
+      const response = await request(app).delete(`/api/v1/projects/${mockId}`);
+
+      expect(response.status).toBe(204);
     });
   });
 });

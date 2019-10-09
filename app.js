@@ -57,7 +57,7 @@ app.post('/api/v1/palettes', async (request, response) => {
 
   for (let requiredParameter of ['palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
     if (!palette[requiredParameter]) {
-      return response.status(422).send({ error: `Expected format: { project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "${requiredParameter}" property.` })
+      return response.status(422).send({ error: `Expected format: { project_id: <integer> project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "${requiredParameter}" property.` })
     }
   }
 
@@ -82,7 +82,7 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
 app.patch('/api/v1/palettes/:id', async (request, response) => {
   const paletteToUpdate = request.body;
 
-  for (let requiredParameter of ['palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
+  for (let requiredParameter of ['project_id', 'palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
     if(!paletteToUpdate[requiredParameter]) {
       return response.status(422).json({ error: `Please add a valid ${requiredParameter} value` })
     } 
@@ -92,6 +92,14 @@ app.patch('/api/v1/palettes/:id', async (request, response) => {
   .update({ ...paletteToUpdate })
   
   return response.status(202).json({ id: request.params.id })
+});
+
+app.delete('/api/v1/projects/:id', async (request, response) => {
+  await database('palettes').where('project_id', request.params.id).del();
+
+  await database('projects').where('id', request.params.id).del();
+
+  return response.status(204).send();
 });
 
 module.exports = app;
