@@ -17,9 +17,9 @@ app.get('/api/v1/projects', async (request, response) => {
 
 app.get('/api/v1/palettes', async (request, response) => {
   const palettes = await database('palettes').select();
-  const { palette_name } = request.query
+  const { palette_name } = request.query;
   if(palette_name) {
-    const foundPalette = await database('palettes').where('palette_name', request.query.palette_name);
+    const foundPalette = await database('palettes').where('palette_name', 'like', `%${palette_name}%`).select();
     if(foundPalette.length) {
       return response.status(200).json(foundPalette)
     } else {
