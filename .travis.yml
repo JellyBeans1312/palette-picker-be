@@ -1,14 +1,16 @@
 language: node_js
-node_js : 
-  - "node"
+node_js:
+- node
 services:
-  - postgresql
+- postgresql
 before_script:
-  - psql -c 'CREATE DATABASE colors_test;' -U postgres
-  - 'knex migrate:latest --env test'
-  - 'knex seed:run --env test'
-notifications: 
+- psql -c 'CREATE DATABASE colors_test;' -U postgres
+- knex migrate:latest --env test
+- knex seed:run --env test
+notifications:
   email: false
-deploy: 
+deploy:
   provider: heroku
   app: palette-picker-be-eo-am
+  api_key:
+    secure: U3sV894MsSQ6Hk622XtgY2zluipiUaPsJ3Yu50b7Ye3n+U0XEFQtkBSzOThdXD6noBlvPyoXd/56aTewESH1RcS0zM2SV7W04TvnXTM/ChzkBJ2DMH/p/qGqFdsjduqx1/gP69bv2cFzn6qhpKjLuhh8HcU1Ck7isGHELSQ5Kfxc8/+5idCcnjQlBwauSsb/GydnLuNkIfXg07Th5En5bWxPlzBRmCpZclZl0sdnqj9c78VEp6Mv/j5aP7vk435YeSSoUgE4WWuOsR3+CP0D7xsOgxUCIg+TrTrkRM65AmkVbHksvgPvgZrzdsqj3rRvGNnAzZv4DB7P4dd/ZN5OnlxfBVwURs58v18bIgWSrBapOHOGmsOg4X1yZ2YQz01RjP0p0OIhDQrJaJAmKqhCZlOI4KY4jJSMkLtaU1MpxbDCl6xzXemiIQAlxIE1udO4HgabJbvdRUIDkFNMXLWXn1ammv1q5HmyF/W+VWQnnVAVUSC9dx+30z5a44Kpx5Ii8bQ4p383jlZfbIxWXrVol5M5oW/dJhD6LQEHGFG3vgPw2FGYKIpqsHdXEaXZ04+97TfpGSrFLNPVXzAQTcl6GAsaUgC3PEFm0EVh9KUGDHMwGmiZL7WSRLdBwLg3nPHB47E/+KZRCLvDsV9MhZzHWGQyLjFCTLSRclydx+15RXQ=
