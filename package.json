@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest server --forceExit",
+    "test": "jest --forceExit",
     "start": "nodemon --exec babel-node server.js",
     "test:watch": "jest --watchAll"
   },
