@@ -9,3 +9,6 @@ before_script:
   - 'knex seed:run --env test'
 notifications: 
   email: false
+deploy: 
+  provider: heroku
+  app: palette-picker-be-eo-am
