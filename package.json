@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "start": "nodemon --exec babel-node server.js"
+    "test": "jest --forceExit",
+    "dev": "nodemon --exec babel-node server.js",
+    "test:watch": "jest --watchAll",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.19.5",
     "pg": "^7.12.1"
@@ -20,6 +23,7 @@
     "@babel/node": "^7.6.3",
     "@babel/preset-env": "^7.6.3",
     "babel-jest": "^24.5.0",
+    "jest": "^24.9.0",
     "supertest": "^4.0.2"
   }
 }
