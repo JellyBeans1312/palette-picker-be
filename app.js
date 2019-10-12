@@ -27,7 +27,6 @@ app.get('/api/v1/palettes', async (request, response) => {
     }    
   }
   return response.status(200).json(palettes)
-  
 });
 
 app.get('/api/v1/projects/:id', async (request, response) => {
@@ -51,11 +50,19 @@ app.get('/api/v1/palettes/:id', async (request, response) => {
 
 app.post('/api/v1/projects', async (request, response) => {
   const project = request.body;
+  const existingProjects = await database('projects');
+  let existingProjectNames = existingProjects.filter(existingProject => {
+    return existingProject.project_name === project.project_name
+  });
 
-  for(let requiredParameter of ['project_name']) {
-    if(!project[requiredParameter]) {
-      return response.status(422).send({ error: `Expected format: { project_name: <string> }. You're missing a "${requiredParameter}" property.`})
+  if(!existingProjectNames.length) {
+    for(let requiredParameter of ['project_name']) {
+      if(!project[requiredParameter]) {
+        return response.status(422).send({ error: `Expected format: { project_name: <string> }. You're missing a "${requiredParameter}" property.`})
+      }
     }
+  } else {
+    return response.status(409).send({ error: `Error: ${project.project_name} already exists. Please choose a different name`})
   }
 
   const newProject = await database('projects').insert(project, 'id');
