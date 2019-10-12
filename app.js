@@ -63,7 +63,7 @@ app.post('/api/v1/projects', async (request, response) => {
       }
     }
   } else {
-    return response.status(409).send({ error: `Error: ${project.project_name} already exists. Please choose a different name`})
+    return response.status(409).json({ error: `Error: ${project.project_name} already exists. Please choose a different name`})
   }
 
   const newProject = await database('projects').insert(project, 'id');
