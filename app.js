@@ -72,9 +72,10 @@ app.post('/api/v1/projects', async (request, response) => {
 
 app.post('/api/v1/palettes', async (request, response) => {
   const palette = request.body;
-
-  for (let requiredParameter of ['palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
+  console.log('palette: ', palette)
+  for (let requiredParameter of ['project_id', 'palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
     if (!palette[requiredParameter]) {
+      console.log('reqParam: ', requiredParameter)
       return response.status(422).send({ error: `Expected format: { project_id: <integer> project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "${requiredParameter}" property.` })
     }
   }
