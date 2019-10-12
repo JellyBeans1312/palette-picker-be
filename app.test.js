@@ -114,9 +114,9 @@ describe('Server', () => {
 
   describe('POST /api/v1/palettes', () => {
     it('should post a new palette to the db', async () => {
-      const project = database('projects').first();
+      const project = await database('projects').first();
       const projectId = project.id
-
+      
       const newPalette = {
         project_id: projectId,
         palette_name: 'test palette 2',
@@ -128,7 +128,6 @@ describe('Server', () => {
       }
 
       const res = await request(app).post('/api/v1/palettes').send(newPalette);
-
       const palettes = await database('palettes').where('id', res.body.id);
       const palette = palettes[0];
 
@@ -148,7 +147,7 @@ describe('Server', () => {
       const res = await request(app).post('/api/v1/palettes').send(newPalette);
 
       expect(res.status).toBe(422);
-      expect(res.body.error).toEqual(`Expected format: { project_id: <integer> project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "color_two" property.`);
+      expect(res.body.error).toEqual(`Expected format: { project_id: <integer> project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "project_id" property.`);
     });
   });
 
