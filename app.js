@@ -82,7 +82,7 @@ app.post('/api/v1/palettes', async (request, response) => {
   return response.status(201).json({ id: newPalette[0] })
 });
 
-app.patch('/api/v1/projects/:id', async (request, response) => {
+app.patch('/api/v1/projects/:id', cors(), async (request, response) => {
   const { project_name } = request.body;
 
   if(!project_name) {
@@ -96,7 +96,7 @@ app.patch('/api/v1/projects/:id', async (request, response) => {
   return response.status(202).json({ id: request.params.id })
 });
 
-app.patch('/api/v1/palettes/:id', async (request, response) => {
+app.patch('/api/v1/palettes/:id', cors(), async (request, response) => {
   const paletteToUpdate = request.body;
 
   for (let requiredParameter of ['project_id', 'palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
