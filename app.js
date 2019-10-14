@@ -5,16 +5,17 @@ const environment = process.env.NODE_ENV || 'development'
 const configuration = require('./knexfile')[environment]
 const database = require('knex')(configuration)
 
+let corsOptions = {
+  origin: 'http://localhost:3000/'
+};
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
   res.send('hello')
 });
 
-let corsOptions = {
-  origin: 'http://localhost:3000/'
-}
 app.get('/api/v1/projects', async (request, response) => {
   const projects = await database('projects').select();
   return response.status(200).json(projects)
@@ -86,7 +87,7 @@ app.post('/api/v1/palettes', async (request, response) => {
   return response.status(201).json({ id: newPalette[0] })
 });
 
-app.patch('/api/v1/projects/:id', cors(corsOptions), async (request, response) => {
+app.patch('/api/v1/projects/:id',  async (request, response) => {
   const { project_name } = request.body;
 
   if(!project_name) {
@@ -100,7 +101,7 @@ app.patch('/api/v1/projects/:id', cors(corsOptions), async (request, response) =
   return response.status(202).json({ id: request.params.id })
 });
 
-app.patch('/api/v1/palettes/:id', cors(corsOptions), async (request, response) => {
+app.patch('/api/v1/palettes/:id', async (request, response) => {
   const paletteToUpdate = request.body;
 
   for (let requiredParameter of ['project_id', 'palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
