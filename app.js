@@ -11,6 +11,13 @@ let corsOptions = {
 
 app.use(express.json());
 app.use(cors());
+app.use((request, response, next) => {
+  response.send(
+    response.header("Access-Control-Allow-Methods", "*"),
+    response.header("Access-Control-Allow-Origin", "*")
+  )
+  next()
+})
 
 app.get('/', (req, res) => {
   res.send('hello')
