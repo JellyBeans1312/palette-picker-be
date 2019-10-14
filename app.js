@@ -12,6 +12,9 @@ app.get('/', (req, res) => {
   res.send('hello')
 });
 
+let corsOptions = {
+  origin: 'http://example.com'
+}
 app.get('/api/v1/projects', async (request, response) => {
   const projects = await database('projects').select();
   return response.status(200).json(projects)
@@ -97,7 +100,7 @@ app.patch('/api/v1/projects/:id', cors(), async (request, response) => {
   return response.status(202).json({ id: request.params.id })
 });
 
-app.patch('/api/v1/palettes/:id', cors(), async (request, response) => {
+app.patch('/api/v1/palettes/:id', cors(corsOptions), async (request, response) => {
   const paletteToUpdate = request.body;
 
   for (let requiredParameter of ['project_id', 'palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
