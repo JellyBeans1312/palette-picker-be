@@ -13,6 +13,8 @@ let corsOptions = {
 app.use(express.json());
 app.use(cors());
 
+app.options('/api/v1/projects/:id', cors());
+
 app.get('/', (req, res) => {
   res.send('hello')
 });
