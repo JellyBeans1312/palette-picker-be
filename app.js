@@ -93,7 +93,7 @@ app.post('/api/v1/palettes', async (request, response) => {
 app.patch('/api/v1/projects/:id', cors(corsOptions), async (request, response) => {
   const { project_name } = request.body;
 
-  if(!project_name === '') {
+  if(!project_name) {
     return response.status(422).json({ error: 'Please add a valid project name' })
   } 
 
