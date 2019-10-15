@@ -88,7 +88,7 @@ app.post('/api/v1/palettes', async (request, response) => {
   return response.status(201).json({ id: newPalette[0] })
 });
 
-app.patch('/api/v1/projects/:id',  async (request, response) => {
+app.patch('/api/v1/projects/:id', cors(corsOptions), async (request, response) => {
   const { project_name } = request.body;
 
   if(!project_name) {
