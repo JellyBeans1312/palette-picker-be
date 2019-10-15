@@ -11,7 +11,7 @@ let corsOptions = {
 };
 
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('hello')
@@ -102,7 +102,7 @@ app.patch('/api/v1/projects/:id',  async (request, response) => {
   return response.status(202).json({ id: request.params.id })
 });
 
-app.patch('/api/v1/palettes/:id', async (request, response) => {
+app.patch('/api/v1/palettes/:id', cors(corsOptions), async (request, response) => {
   const paletteToUpdate = request.body;
 
   for (let requiredParameter of ['project_id', 'palette_name', 'color_one', 'color_two', 'color_three', 'color_four', 'color_five']) {
