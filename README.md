@@ -102,7 +102,7 @@ Update a single palette based on an id:
 
 If the request is missing a required parameter, a `422` status along with the message `error: Please add a valid ${requiredParameter} value` will be returned.
 ___
-Delete a single project based on an id:
+Delete a single palette based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
