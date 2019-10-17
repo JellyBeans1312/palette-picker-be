@@ -18,7 +18,7 @@ Palette Picker is an application that allows users to create projects and palett
 
 ## Project endpoints
 
-Return all projects:
+### Return all projects:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -26,7 +26,7 @@ Return all projects:
 
 If the request is not successful, a `500` error will be returned.
 ___
-Return a single project based on an id:
+### Return a single project based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -34,7 +34,7 @@ Return a single project based on an id:
 
 If the request is not successful, a `404` error will be returned with the message `Could not find project with matching ID`.
 ___
-Create a new project:
+### Create a new project:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -44,7 +44,7 @@ If the request is missing a required parameter, a `422` error will be returned w
 
 If the name of the project already exists in the database, a `409` error will be returned with the message `error: Error: ${project_name} already exists. Please choose a different name`}).
 ___
-Update a single project based on an id:
+### Update a single project based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -52,7 +52,7 @@ Update a single project based on an id:
 
 If the request does not include a `project_name` key, a `422` status with the message `error: Please add a valid project name` will be returned.
 ___
-Delete a single project based on an id:
+### Delete a single project based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -62,7 +62,7 @@ If the request is not successful, a `422` error will be returned with the messag
 
 ## Palette endpoints
 ___
-Return all palettes:
+### Return all palettes:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -70,7 +70,7 @@ Return all palettes:
 
 If getting all palettes, if the request is not successful, a `500` error will be returned.
 ___
-Return a single palette based on an id:
+### Return a single palette based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -78,7 +78,7 @@ Return a single palette based on an id:
 
 If the request is unsuccessful, a `404` status will be returned with the message `Could not find palette with matching ID`.
 ___
-Search for a specific palette based on its name: 
+### Search for a specific palette based on its name: 
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -86,7 +86,7 @@ Search for a specific palette based on its name:
 
 If searching for a specific palette, if the request is not successful, a `404` error will be returned with the message `That palette does not exist`.
 ___
-Create a new palette: 
+### Create a new palette: 
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -94,7 +94,7 @@ Create a new palette:
 
 If the request does not contain a required parameter, a `422` status with the message `error: Expected format: { project_id: <integer> project_name: <string>, color_one: <string>, color_two: <string>, color_three: <string>, color_four: <string>, color_five: <string> }. You're missing a "${requiredParameter}" property` will be returned.
 ___
-Update a single palette based on an id:
+### Update a single palette based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
@@ -102,7 +102,7 @@ Update a single palette based on an id:
 
 If the request is missing a required parameter, a `422` status along with the message `error: Please add a valid ${requiredParameter} value` will be returned.
 ___
-Delete a single palette based on an id:
+### Delete a single palette based on an id:
 
 | Url | Verb  | Options | Sample Response  |
 |---|---|---|---|
